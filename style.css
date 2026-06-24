@@ -1,0 +1,188 @@
+/* ==========================================================================
+   ESTILOS GENERALES Y VISTA EN PANTALLA
+   ========================================================================== */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+textarea {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+.controls { 
+    margin-top: 15px; 
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary { background: #007bff; color: white; }
+.btn-print { background: #28a745; color: white; margin-left: 10px; }
+
+/* Diseño de la ETIQUETA (Vista en pantalla) */
+.print-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.barcode-item {
+    background: white;
+    padding: 25px;            
+    border: 1px solid #ccc;
+    width: fit-content;       
+    min-width: 320px;         
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Asegura que el código de barras no se salga del contenedor */
+.barcode-item svg, 
+.barcode-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fila inferior con Descripción centrada y Código a la derecha */
+.details-row {
+    display: flex;
+    width: 100%;
+    align-items: center; 
+    margin-top: 5px;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+}
+
+.desc-text {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    flex: 1;             
+    text-align: center;  
+    padding-left: 60px;  
+}
+
+.code-small {
+    font-size: 10px;
+    color: #666;
+    font-family: 'Courier New', monospace;
+    width: 60px;         
+    text-align: right;
+}
+
+/* ==========================================================================
+   CONFIGURACIÓN OPTIMIZADA PARA IMPRIMIR UNA ETIQUETA GIGANTE POR HOJA
+   ========================================================================== */
+@media print {
+    /* Ajuste directo a la hoja física del navegador */
+    @page {
+        size: letter; /* Cambia a 'A4' si tu papel es de ese tamaño */
+        margin: 0;    /* Elimina encabezados, pies de página y márgenes por defecto */
+    }
+
+    /* 1. Ocultamos el panel de texto, títulos y botones */
+    .container, .no-print, form, textarea, .controls, button, h2, p { 
+        display: none !important; 
+    }
+    
+    /* 2. CORRECCIÓN CRÍTICA: Se quita 'overflow: hidden' y 'height: 100%' para que fluyan todas las hojas */
+    html, body { 
+        background: #fff !important; 
+        margin: 0 !important; 
+        padding: 0 !important; 
+        width: 100% !important;
+        height: auto !important;     
+        overflow: visible !important; 
+    }
+    
+    /* 3. Ajustamos el área de impresión eliminando Flexbox en el papel */
+    .print-area { 
+        display: block !important; 
+        width: 100% !important;
+        height: auto !important;      
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* 4. Hacemos que cada contenedor de etiqueta ocupe su hoja disponible de forma limpia */
+    .barcode-item { 
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        
+        /* Forzar de manera segura el salto entre páginas */
+        break-after: page !important; 
+        page-break-after: always !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        
+        /* Dimensiones fijas basadas en el papel real */
+        width: 100% !important;
+        height: 100vh !important;    /* Mantiene el tamaño de una hoja exacta */
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        padding: 1.5in !important;    /* Margen interno para centrar de forma segura */
+        border: none !important;      /* Sin bordes para evitar líneas negras recortadas */
+        background: #fff !important;
+    }
+
+    /* Evitamos conflictos de hojas blancas al final */
+    .barcode-item:last-child {
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+    }
+    
+    /* 5. AGRANDAMOS EL CÓDIGO DE BARRAS AL MÁXIMO */
+    .barcode-item svg, 
+    .barcode-item img {
+        width: 100% !important;      
+        height: auto !important;     
+        max-height: 55vh !important; 
+    }
+    
+    /* 6. AGRANDAMOS LAS LETRAS Y EL CÓDIGO INFERIOR */
+    .details-row {
+        display: flex !important;
+        width: 100% !important;
+        margin-top: 40px !important;
+        border-top: 3px solid #000 !important;
+        padding-top: 20px !important;
+    }
+    
+    .desc-text {
+        font-size: 36px !important;  
+        font-weight: bold !important;
+        text-align: left !important;
+        padding-left: 0 !important;  
+    }
+    
+    .code-small {
+        font-size: 32px !important;  
+        width: auto !important;
+        text-align: right !important;
+    }
+}

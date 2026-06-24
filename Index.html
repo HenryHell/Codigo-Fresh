@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODE 128 FRESKO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container no-print">
+        <h2>Código de barras FRESKO</h2>
+        <p>Formato: <strong>Cantidad, Descripción</p>
+        
+        <textarea id="massiveInput" rows="8" placeholder="Ejemplo:&#10;Cantidad-100, Nutrioli 800&#10;Cantidad-200, Ave 400"></textarea>
+        
+        <div class="controls">
+            <button onclick="generarMasivo()" class="btn-primary">Generar Etiquetas</button>
+            <button onclick="window.print()" class="btn-print">Imprimir / PDF</button>
+        </div>
+    </div>
+
+    <div id="barcodeGrid" class="print-area"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
